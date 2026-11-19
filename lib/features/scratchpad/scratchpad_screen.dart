@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:drift/drift.dart' as drift;
 import '../../core/database/app_database.dart';
 import '../../core/parser/scratchpad_parser.dart';
+import 'nightly_sweep_sheet.dart';
 import 'quick_capture_bar.dart';
 
 class ScratchpadScreen extends StatefulWidget {
@@ -31,6 +32,7 @@ class _ScratchpadScreenState extends State<ScratchpadScreen> {
 
     await widget.database.insertEntry(entry);
   }
+
 
   void _cycleWallet(HorizonEntry item) async {
     HapticFeedback.selectionClick();
@@ -81,6 +83,17 @@ class _ScratchpadScreenState extends State<ScratchpadScreen> {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.nightlight_round,
+              color: Color(0xFFF59E0B),
+              size: 20,
+            ),
+            tooltip: 'Nightly Sweep',
+            onPressed: () => NightlySweepSheet.show(context, widget.database),
+          ),
+        ],
       ),
       body: StreamBuilder<List<HorizonEntry>>(
         stream: widget.database.watchTodayEntries(),
